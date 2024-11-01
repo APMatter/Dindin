@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"name": "test_connection",
+			"path": "."
+		},
+		{
+			"name": "pic",
+			"path": "../../dindin03/pic"
+		}
+	],
+	"settings": {}
+}
