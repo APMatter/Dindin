@@ -2,10 +2,10 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-Future<String> getChatbotResponse(String userMessage) async {
-  final uri = Uri.parse('http://10.0.2.2:5000/chat'); // ใช้ 10.0.2.2 สำหรับ Android Emulator
-  // หากใช้ iOS Simulator สามารถใช้ 'http://127.0.0.1:5000/chat' ได้
-  // ถ้าใช้จริงต้องเปลี่ยนเป็น IP address ของเครื่องที่รัน Flask
+// Function to get chatbot response
+// Function to get chatbot response
+Future<Map<String, dynamic>> getChatbotResponse(String userMessage) async {
+  final uri = Uri.parse('http://10.0.2.2:5000/chat'); // Use 10.0.2.2 for Android Emulator
 
   try {
     final response = await http.post(
@@ -14,14 +14,14 @@ Future<String> getChatbotResponse(String userMessage) async {
       body: jsonEncode({"message": userMessage}),
     );
 
-    // ตรวจสอบสถานะการตอบกลับ
     if (response.statusCode == 200) {
-      final jsonResponse = jsonDecode(response.body);
-      return jsonResponse['response'] ?? 'No response from chatbot'; // แก้ไขคีย์จาก 'outputs' เป็น 'response'
+      return jsonDecode(response.body); // Return the decoded JSON response
     } else {
-      return 'Error: ${response.statusCode} - ${response.reasonPhrase}'; // แสดงรหัสสถานะและเหตุผล
+      return {
+        'response': 'Error: ${response.statusCode} - ${response.reasonPhrase}'
+      };
     }
   } catch (e) {
-    return 'Failed to connect to the chatbot: $e'; // จัดการข้อผิดพลาดเมื่อไม่สามารถเชื่อมต่อได้
+    return {'response': 'Failed to connect to the chatbot: $e'};
   }
 }

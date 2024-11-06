@@ -5,7 +5,7 @@ import 'package:test_connection/chatpage.dart';
 import 'package:test_connection/homepage.dart';
 import 'package:test_connection/login_page.dart';
 import 'package:test_connection/report.dart';
-
+import 'package:test_connection/reportHistory.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,13 +23,12 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(primarySwatch: Colors.blue),
       home: const AuthWrapper(),
       routes: {
-        '/chat': (context) => ChatPage(),
-        '/problemStatus': (context) => const ProblemStatusPage(),
-        '/news': (context) => const NewsPage(),
-        '/history': (context) => const HistoryPage(),
-        '/login': (context) => LoginScreen(),
-        '/report': (context) => ProblemsPage(),
-      },
+  '/chat': (context) => ChatPage(),
+
+  '/login': (context) => LoginScreen(),
+  '/report': (context) => ProblemsReport(), // Ensure this line is correct
+  '/history': (context) =>  HistoryReport (), // Ensure this line is correct
+},
     );
   }
 }

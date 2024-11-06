@@ -201,41 +201,7 @@ class HomePage extends StatelessWidget {
   }
 }
 
-// Placeholder for the Problem Status Page
-class ProblemStatusPage extends StatelessWidget {
-  const ProblemStatusPage({Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Your Problem Status')),
-      body: const Center(child: Text('Problem Status Page')),
-    );
-  }
-}
 
-// Placeholder for the MFU News Page
-class NewsPage extends StatelessWidget {
-  const NewsPage({Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('MFU NEWS')),
-      body: const Center(child: Text('News Page')),
-    );
-  }
-}
 
-// Placeholder for the History Page
-class HistoryPage extends StatelessWidget {
-  const HistoryPage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('History')),
-      body: const Center(child: Text('History Page')),
-    );
-  }
-}
