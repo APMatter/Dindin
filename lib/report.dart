@@ -21,7 +21,7 @@ class _ProblemsPageState extends State<ProblemsReport> {
   final TextEditingController _requestController = TextEditingController();
   bool _isReportUploaded = false;
   bool _isUploading = false; // Status of upload
-  String? status = 'pending'; // Default status
+  String? status = 'Inprogress'; // Default status
 
   final Map<String, List<String>> buildingRooms = {
     'C1 Building': ['C1 111', 'C1 112', 'C1 203'],
@@ -178,20 +178,14 @@ class _ProblemsPageState extends State<ProblemsReport> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text('Problem Status',
+                      Text('Problem Report',
                           style: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold)),
                       SizedBox(height: 20),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          StepIndicator(
-                            stepNumber: 1,
-                            title: 'Report problem',
-                            isCompleted: _isReportUploaded,
-                          ),
-                          StepIndicator(stepNumber: 2, title: 'In progress'),
-                          StepIndicator(stepNumber: 3, title: 'Completed'),
+                          Text("Please Up load your problem")
                         ],
                       ),
                       SizedBox(height: 20),

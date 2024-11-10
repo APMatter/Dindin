@@ -65,7 +65,7 @@ class DependStatusPage extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    'Broken equipment',
+                    'Inprogress',
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -74,7 +74,7 @@ class DependStatusPage extends StatelessWidget {
                   ),
                   SizedBox(height: 20),
                   Image.asset(
-                    'assets/icons/broken_equipment.png', // Ensure the image path is correct
+                    'pic/ethics.png', // Ensure the image path is correct
                     height: 80,
                   ),
                   SizedBox(height: 20),
