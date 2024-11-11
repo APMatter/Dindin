@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:test_connection/chatpage.dart';
 import 'package:test_connection/homepage.dart';
 import 'package:test_connection/login_page.dart';
+import 'package:test_connection/newspage.dart';
 import 'package:test_connection/report.dart';
 import 'package:test_connection/reportHistory.dart';
 
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
       home: const AuthWrapper(),
       routes: {
   '/chat': (context) => ChatPage(),
+  '/news' : (context) => NewsPage(),
 
   '/login': (context) => LoginScreen(),
   '/report': (context) => ProblemsReport(), // Ensure this line is correct
