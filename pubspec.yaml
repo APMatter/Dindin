@@ -44,6 +44,7 @@ dependencies:
   image_picker: ^1.1.2
   permission_handler: ^11.3.1
   firebase_storage: ^11.6.9
+  google_fonts: ^6.2.1
 
 
 
@@ -71,12 +72,17 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-      - pic/bg.png
       - pic/chat.png
       - pic/rb_4114.png
       - pic/status.png
       - pic/ai.png
       - pic/ethics.png
+      - pic/bg2.png
+      - pic/bg.png
+      - pic/background.png
+      - pic/inprogress.png
+      - pic/complete.png
+      - pic/inprogress_blue.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

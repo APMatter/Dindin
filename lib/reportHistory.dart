@@ -1,13 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:test_connection/pendingStatus.dart';
+
+import 'completeStatus.dart'; // Ensure this imports CompleteReportPage
 
 class HistoryReport extends StatefulWidget {
   @override
-  _ReportHistoryState createState() => _ReportHistoryState();
+  _HistoryReportState createState() => _HistoryReportState();
 }
 
-class _ReportHistoryState extends State<HistoryReport> {
+class _HistoryReportState extends State<HistoryReport> {
   List<Map<String, dynamic>> userReports = [];
   bool isLoading = true;
 
@@ -48,20 +52,29 @@ class _ReportHistoryState extends State<HistoryReport> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Your Reports'),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+          icon: Icon(
+            Icons.arrow_back_ios_new,
+            size: 20,
+            color: Colors.grey[600], // Icon color
+          ),
+          onPressed: () => Navigator.pop(context),
         ),
+        title: Text(
+          "History",
+          style: GoogleFonts.poppins(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.black, // Text color on white background
+          ),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.white, // Pure white background for AppBar
+        elevation: 0, // Removes shadow for a clean look
       ),
       body: Container(
         decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('pic/bg.png'), // ภาพพื้นหลังหน้าหลัก
-            fit: BoxFit.cover,
-          ),
+          color: Colors.white,
         ),
         child: isLoading
             ? Center(child: CircularProgressIndicator())
@@ -87,118 +100,49 @@ class _ReportHistoryState extends State<HistoryReport> {
                               ),
                             )
                           : Container(width: 50, height: 50, color: Colors.grey),
-                      title: Text(report['request'], style: TextStyle(fontWeight: FontWeight.bold)),
-                      subtitle: Text('Building: ${report['building']}, Room: ${report['room']}'),
+                      title: Text(
+                        report['request'] ?? 'Unknown Request',
+                        style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                      subtitle: Text(
+                        'Building: ${report['building']}, Room: ${report['room']}',
+                        style: GoogleFonts.poppins(fontSize: 14),
+                      ),
                       onTap: () async {
                         final reportData = await fetchReportDetails(report['id']);
                         if (reportData != null) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  ReportDetail(reportData: reportData, reportId: report['id']),
-                            ),
-                          );
+                          final status = reportData['status'] ?? 'Inprogress';
+                          if (status == 'Complete') {
+                            // Navigate to CompleteReportPage if status is Complete
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => CompleteReportPage(reportCode: report['id']),
+                              ),
+                            );
+                          } else {
+                            // Navigate to DependStatusPage if status is Inprogress
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DependStatusPage(
+                                  reportCode: report['id'],
+                                  status: status,
+                                  request: reportData['request'] ?? 'No request provided',
+                                  building: reportData['building'] ?? 'Unknown',
+                                ),
+                              ),
+                            );
+                          }
                         }
                       },
                     ),
                   );
                 },
               ),
-      ),
-    );
-  }
-}
-
-class ReportDetail extends StatelessWidget {
-  final Map<String, dynamic> reportData;
-  final String reportId;
-
-  ReportDetail({required this.reportData, required this.reportId});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Report Details'),
-      ),
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('pic/bg.png'), // ภาพพื้นหลังหน้ารายละเอียด
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: SingleChildScrollView( // เพิ่มการเลื่อนกรณีข้อมูลยาวเกิน
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Card(
-              color: Colors.white.withOpacity(0.95),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15),
-              ),
-              elevation: 5,
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Report Code: $reportId',
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                      'Building: ${reportData['building']}',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    Text(
-                      'Room: ${reportData['room']}',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    Text(
-                      'Request: ${reportData['request']}',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                      'Status: ${reportData['status']}',
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: reportData['status'].toLowerCase() == 'complete'
-                            ? Colors.green
-                            : Colors.orange,
-                      ),
-                    ),
-                    SizedBox(height: 20),
-                    reportData['imageUrl'] != null
-                        ? ClipRRect(
-                            borderRadius: BorderRadius.circular(15.0),
-                            child: Image.network(
-                              reportData['imageUrl'],
-                              width: double.infinity,
-                              height: 250,
-                              fit: BoxFit.cover,
-                            ),
-                          )
-                        : Container(
-                            color: Colors.grey,
-                            height: 200,
-                            width: double.infinity,
-                            child: Center(
-                              child: Text(
-                                'No Image Available',
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ),
-                          ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ),
       ),
     );
   }

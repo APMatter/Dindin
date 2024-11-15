@@ -75,7 +75,7 @@ class LoginScreen extends StatelessWidget {
           // Background image
           Positioned.fill(
             child: Image.asset(
-              'pic/bg.png', // Ensure bg.png is in the assets folder
+              'pic/bg2.png', // Ensure bg.png is in the assets folder
               fit: BoxFit.cover,
             ),
           ),
@@ -85,27 +85,35 @@ class LoginScreen extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  // Image above the login button
-                  Image.asset(
-                    'pic/ai.png', // Ensure ai.png is in the assets folder
-                    height: 200,
-                  ),
+                  
                   SizedBox(height: 20),
                   Text('Sign in with @lamduan.mfu.ac.th', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
                   SizedBox(height: 20),
                   // Login button
+
                   Container(
-                    width: 150,
-                    height: 60,
-                    child: ElevatedButton(
-                      onPressed: () => _signInWithGoogle(context),
-                      child: Text('Sign in', style: TextStyle(fontSize: 16)),
-                      style: ElevatedButton.styleFrom(
-                        
-                        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-                      ),
-                    ),
-                  ),
+  width: 150,
+  height: 45,
+  child: ElevatedButton(
+    
+    onPressed: () => _signInWithGoogle(context),
+    child: Text(
+      'Sign in',
+      style: TextStyle(
+        fontSize: 16,
+        color: Colors.white, // ตัวอักษรสีขาว
+      ),
+    ),
+    style: ElevatedButton.styleFrom(
+      backgroundColor: Colors.blue[900],  // สีพื้นหลังของปุ่มเป็นสีน้ำเงิน
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(30), // ปรับขอบโค้งของปุ่ม (ถ้าต้องการ)
+      ),
+    ),
+  ),
+),
+                  SizedBox(height: 180),
                 ],
               ),
             ),

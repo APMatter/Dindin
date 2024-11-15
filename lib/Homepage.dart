@@ -1,13 +1,17 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class HomePage extends StatelessWidget {
-  final String username; // Pass the username dynamically
-  final String profileImagePath; // Path to the profile image (this will not be used now)
+  final String username; 
+  final String profileImagePath; 
 
-
-  const HomePage({Key? key, required this.username, required this.profileImagePath, }) : super(key: key);
+  const HomePage({
+    Key? key, 
+    required this.username, 
+    required this.profileImagePath,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,11 +21,11 @@ class HomePage extends StatelessWidget {
           // Background
           Container(
             decoration: BoxDecoration(
-              color: Colors.black,
-              image: DecorationImage(
-                image: AssetImage("pic/bg.png"), // Replace with your image path
+              
+              image: DecorationImage( 
+                image: AssetImage('pic/background.png'),
                 fit: BoxFit.cover,
-              ),
+              )
             ),
           ),
 
@@ -47,14 +51,18 @@ class HomePage extends StatelessWidget {
                         children: [
                           Text(
                             'Hello $username',
-                            style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
+                            style: GoogleFonts.poppins(
+                              fontSize: 18,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                           Text(
                             'How can I assist you right now?',
-                            style: TextStyle(fontSize: 13, color: Colors.white),
+                            style: GoogleFonts.poppins(
+                              fontSize: 13,
+                              color: Colors.black54,
+                            ),
                           ),
                         ],
                       ),
@@ -70,20 +78,35 @@ class HomePage extends StatelessWidget {
                   },
                   child: Container(
                     height: 150,
-                    width: 500,
+                    width: double.infinity,
                     padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
-                      color: Color(0xFF1E4EA5), // Purple color
-                      borderRadius: BorderRadius.circular(10),
+                      color: const Color.fromARGB(255, 54, 119, 240), 
+                      borderRadius: BorderRadius.circular(30),
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      
                       children: [
-                        Text(
-                          'CHAT with DINN',
-                          style: const TextStyle(fontSize: 18, color: Colors.white),
+                        Container(
+                          padding: EdgeInsets.only(top: 60),
+                        child: Column(
+                          children: [
+                            Text(
+                              'Goto Chat',
+                              style: GoogleFonts.poppins(
+                                fontSize: 18,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold
+                              ),
+                            ),
+                            Text('DinDin Chatbot'),
+                          ],
                         ),
-                        Image.asset('pic/chat.png', width: 80, height: 80)
+                        ),
+                        
+                        
+                        Image.asset('pic/chat.png', width: 80, height: 80),
                       ],
                     ),
                   ),
@@ -92,8 +115,9 @@ class HomePage extends StatelessWidget {
 
                 // Other buttons
                 Row(
+                  
                   children: [
-                    // Problem Status Button
+                    // Report Button
                     GestureDetector(
                       onTap: () {
                         Navigator.pushNamed(context, '/report');
@@ -103,22 +127,37 @@ class HomePage extends StatelessWidget {
                         width: 200,
                         padding: const EdgeInsets.all(20),
                         decoration: BoxDecoration(
-                          color: Color(0xFFD9D9D9),
-                          borderRadius: BorderRadius.circular(10),
+                          color: const Color.fromARGB(255, 105, 173, 173),
+                          borderRadius: BorderRadius.circular(30),
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [ 
+                              Container( 
+                                padding: EdgeInsets.only(top:60),
+                                child: Text(
                               'Report',
-                              style: const TextStyle(fontSize: 18, color: Colors.white),
+                              style: GoogleFonts.poppins(
+                                fontSize: 18,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold
+                              ),
                             ),
-                            Image.asset('pic/status.png', width: 50, height: 50)
+                              ),
+                              Text('Report a problem')
+                              
+                            ],),
+                            
+                            Container(padding: EdgeInsets.only(bottom: 70),
+                              child: Image.asset('pic/status.png', width: 40, height: 40)),
                           ],
                         ),
                       ),
                     ),
-                    SizedBox(width: 10),
+                    const SizedBox(width: 10),
 
                     // MFU News and History buttons
                     Column(
@@ -133,22 +172,26 @@ class HomePage extends StatelessWidget {
                             height: 70,
                             padding: const EdgeInsets.all(20),
                             decoration: BoxDecoration(
-                              color: Color.fromARGB(255, 134, 15, 15),
-                              borderRadius: BorderRadius.circular(10),
+                              color: const Color.fromARGB(255, 224, 88, 88),
+                              borderRadius: BorderRadius.circular(25),
                             ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
                                   'MFU NEWS',
-                                  style: const TextStyle(fontSize: 14, color: Colors.white),
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 14,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600
+                                  ),
                                 ),
-                                Icon(Icons.newspaper, color: Colors.white),
+                                const Icon(Icons.newspaper, color: Colors.white),
                               ],
                             ),
                           ),
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         GestureDetector(
                           onTap: () {
                             Navigator.pushNamed(context, '/history');
@@ -158,17 +201,20 @@ class HomePage extends StatelessWidget {
                             width: 150,
                             padding: const EdgeInsets.all(20),
                             decoration: BoxDecoration(
-                              color: Color(0xFFD17D1B),
-                              borderRadius: BorderRadius.circular(10),
+                              color: const Color.fromARGB(255, 238, 161, 74),
+                              borderRadius: BorderRadius.circular(25),
                             ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
                                   'History',
-                                  style: const TextStyle(fontSize: 18, color: Colors.white),
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 18,
+                                    color: Colors.white,fontWeight: FontWeight.w600
+                                  ),
                                 ),
-                                Icon(Icons.history, color: Colors.white),
+                                const Icon(Icons.history, color: Colors.white),
                               ],
                             ),
                           ),
@@ -186,12 +232,11 @@ class HomePage extends StatelessWidget {
             top: 30,
             right: 16,
             child: IconButton(
-              icon: Icon(Icons.logout, color: Colors.white),
+              icon: const Icon(Icons.logout, color: Colors.black),
               onPressed: () async {
                 await FirebaseAuth.instance.signOut();
                 await GoogleSignIn().signOut();
-                // Navigate to the login page
-                Navigator.pushReplacementNamed(context, '/login'); // Change to your login route
+                Navigator.pushReplacementNamed(context, '/login');
               },
             ),
           ),
@@ -200,8 +245,3 @@ class HomePage extends StatelessWidget {
     );
   }
 }
-
-
-
-
-
