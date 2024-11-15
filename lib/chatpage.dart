@@ -48,7 +48,7 @@ class _ChatScreenState extends State<ChatPage> {
           icon: Icon(
             Icons.arrow_back_ios_new, // ลูกศรสามเหลี่ยมทันสมัย
             size: 20,
-            color: Colors.grey[600],
+            color: Colors.black,
           ),
           onPressed: () => Navigator.pop(context),
         ),

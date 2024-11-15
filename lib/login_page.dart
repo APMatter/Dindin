@@ -11,45 +11,49 @@ class LoginScreen extends StatelessWidget {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<void> _signInWithGoogle(BuildContext context) async {
-    try {
-      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
-      if (googleUser == null) {
-        return; // User cancelled the sign-in
-      }
+  try {
+    // Sign out first to clear any previous session
+    await _googleSignIn.signOut();
 
-      if (!googleUser.email.endsWith('@lamduan.mfu.ac.th')) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('ลงชื่อเข้าใช้ได้เฉพาะบัญชี @lamduan.mfu.ac.th เท่านั้น')),
-        );
-        return;
-      }
-
-      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-      final AuthCredential credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
-      );
-
-      UserCredential userCredential = await _auth.signInWithCredential(credential);
-
-      // Save user data in Firestore
-      await _saveUserData(userCredential.user);
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('ลงชื่อเข้าใช้สำเร็จ')),
-      );
-
-      // Navigate to HomePage
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => HomePage(username: userCredential.user!.displayName ?? '', profileImagePath: userCredential.user!.photoURL ?? '')),
-      );
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('เกิดข้อผิดพลาด: $e')),
-      );
+    // Start the sign-in process
+    final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+    if (googleUser == null) {
+      return; // User cancelled the sign-in
     }
+
+    if (!googleUser.email.endsWith('@lamduan.mfu.ac.th')) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('ลงชื่อเข้าใช้ได้เฉพาะบัญชี @lamduan.mfu.ac.th เท่านั้น')),
+      );
+      return;
+    }
+
+    final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+    final AuthCredential credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+
+    UserCredential userCredential = await _auth.signInWithCredential(credential);
+
+    // Save user data in Firestore
+    await _saveUserData(userCredential.user);
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('ลงชื่อเข้าใช้สำเร็จ')),
+    );
+
+    // Navigate to HomePage
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => HomePage(username: userCredential.user!.displayName ?? '', profileImagePath: userCredential.user!.photoURL ?? '')),
+    );
+  } catch (e) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('เกิดข้อผิดพลาด: $e')),
+    );
   }
+}
 
   Future<void> _saveUserData(User? user) async {
     if (user == null) return;

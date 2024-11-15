@@ -19,7 +19,7 @@ class DependStatusPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white, // ตั้งค่าพื้นหลังของ Scaffold เป็นสีขาว
       appBar: AppBar(
-        title: Text('Report Status', style: GoogleFonts.poppins(fontSize: 20)),
+        title: Text('Report Status', style: GoogleFonts.poppins(fontSize: 20,fontWeight: FontWeight.bold,) ,),
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios_new),
           onPressed: () => Navigator.pop(context),

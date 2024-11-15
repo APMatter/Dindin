@@ -26,11 +26,10 @@ class MyApp extends StatelessWidget {
       routes: {
   '/chat': (context) => ChatPage(),
   '/news' : (context) => NewsPage(),
-
   '/login': (context) => LoginScreen(),
   '/report': (context) => ProblemsReport(), // Ensure this line is correct
   '/history': (context) =>  HistoryReport (), // Ensure this line is correct
-},
+  },
     );
   }
 }

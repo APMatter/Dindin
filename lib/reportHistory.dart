@@ -56,7 +56,7 @@ class _HistoryReportState extends State<HistoryReport> {
           icon: Icon(
             Icons.arrow_back_ios_new,
             size: 20,
-            color: Colors.grey[600], // Icon color
+            color: Colors.black, // Icon color
           ),
           onPressed: () => Navigator.pop(context),
         ),

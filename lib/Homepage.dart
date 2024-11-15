@@ -2,14 +2,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomePage extends StatelessWidget {
-  final String username; 
-  final String profileImagePath; 
+  final String username;
+  final String profileImagePath;
 
   const HomePage({
-    Key? key, 
-    required this.username, 
+    Key? key,
+    required this.username,
     required this.profileImagePath,
   }) : super(key: key);
 
@@ -21,12 +22,10 @@ class HomePage extends StatelessWidget {
           // Background
           Container(
             decoration: BoxDecoration(
-              
-              image: DecorationImage( 
-                image: AssetImage('pic/background.png'),
-                fit: BoxFit.cover,
-              )
-            ),
+                image: DecorationImage(
+              image: AssetImage('pic/background.png'),
+              fit: BoxFit.cover,
+            )),
           ),
 
           // Content
@@ -81,31 +80,27 @@ class HomePage extends StatelessWidget {
                     width: double.infinity,
                     padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 54, 119, 240), 
+                      color: const Color.fromARGB(255, 54, 119, 240),
                       borderRadius: BorderRadius.circular(30),
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      
                       children: [
                         Container(
                           padding: EdgeInsets.only(top: 60),
-                        child: Column(
-                          children: [
-                            Text(
-                              'Goto Chat',
-                              style: GoogleFonts.poppins(
-                                fontSize: 18,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold
+                          child: Column(
+                            children: [
+                              Text(
+                                'Goto Chat',
+                                style: GoogleFonts.poppins(
+                                    fontSize: 18,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
                               ),
-                            ),
-                            Text('DinDin Chatbot'),
-                          ],
+                              Text('DinDin Chatbot'),
+                            ],
+                          ),
                         ),
-                        ),
-                        
-                        
                         Image.asset('pic/chat.png', width: 80, height: 80),
                       ],
                     ),
@@ -115,7 +110,6 @@ class HomePage extends StatelessWidget {
 
                 // Other buttons
                 Row(
-                  
                   children: [
                     // Report Button
                     GestureDetector(
@@ -135,24 +129,24 @@ class HomePage extends StatelessWidget {
                           children: [
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [ 
-                              Container( 
-                                padding: EdgeInsets.only(top:60),
-                                child: Text(
-                              'Report',
-                              style: GoogleFonts.poppins(
-                                fontSize: 18,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold
-                              ),
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.only(top: 60),
+                                  child: Text(
+                                    'Report',
+                                    style: GoogleFonts.poppins(
+                                        fontSize: 18,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                Text('Report a problem')
+                              ],
                             ),
-                              ),
-                              Text('Report a problem')
-                              
-                            ],),
-                            
-                            Container(padding: EdgeInsets.only(bottom: 70),
-                              child: Image.asset('pic/status.png', width: 40, height: 40)),
+                            Container(
+                                padding: EdgeInsets.only(bottom: 70),
+                                child: Image.asset('pic/status.png',
+                                    width: 40, height: 40)),
                           ],
                         ),
                       ),
@@ -164,8 +158,14 @@ class HomePage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         GestureDetector(
-                          onTap: () {
-                            Navigator.pushNamed(context, '/news');
+                          onTap: () async {
+                            final Uri url =
+                                Uri.parse('https://en.mfu.ac.th/en-news.html');
+                            if (await canLaunchUrl(url)) {
+                              await launchUrl(url);
+                            } else {
+                              throw 'Could not launch $url';
+                            }
                           },
                           child: Container(
                             width: 150,
@@ -181,12 +181,12 @@ class HomePage extends StatelessWidget {
                                 Text(
                                   'MFU NEWS',
                                   style: GoogleFonts.poppins(
-                                    fontSize: 14,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w600
-                                  ),
+                                      fontSize: 14,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600),
                                 ),
-                                const Icon(Icons.newspaper, color: Colors.white),
+                                const Icon(Icons.newspaper,
+                                    color: Colors.white),
                               ],
                             ),
                           ),
@@ -210,9 +210,9 @@ class HomePage extends StatelessWidget {
                                 Text(
                                   'History',
                                   style: GoogleFonts.poppins(
-                                    fontSize: 18,
-                                    color: Colors.white,fontWeight: FontWeight.w600
-                                  ),
+                                      fontSize: 18,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600),
                                 ),
                                 const Icon(Icons.history, color: Colors.white),
                               ],
