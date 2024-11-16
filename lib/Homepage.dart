@@ -16,16 +16,20 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Get screen size
+    final screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       body: Stack(
         children: [
           // Background
           Container(
             decoration: BoxDecoration(
-                image: DecorationImage(
-              image: AssetImage('pic/background.png'),
-              fit: BoxFit.cover,
-            )),
+              image: DecorationImage(
+                image: AssetImage('pic/background.png'),
+                fit: BoxFit.cover,
+              ),
+            ),
           ),
 
           // Content
@@ -86,22 +90,32 @@ class HomePage extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Container(
-                          padding: EdgeInsets.only(top: 60),
-                          child: Column(
-                            children: [
-                              Text(
-                                'Goto Chat',
-                                style: GoogleFonts.poppins(
-                                    fontSize: 18,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Goto Chat',
+                              style: GoogleFonts.poppins(
+                                fontSize: 18,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
                               ),
-                              Text('DinDin Chatbot'),
-                            ],
-                          ),
+                            ),
+                            Text(
+                              'DinDin Chatbot',
+                              style: GoogleFonts.poppins(
+                                fontSize: 14,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
                         ),
-                        Image.asset('pic/chat.png', width: 80, height: 80),
+                        Image.asset(
+                          'pic/chat.png',
+                          width: 80,
+                          height: 80,
+                        ),
                       ],
                     ),
                   ),
@@ -110,116 +124,127 @@ class HomePage extends StatelessWidget {
 
                 // Other buttons
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Report Button
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pushNamed(context, '/report');
-                      },
-                      child: Container(
-                        height: 150,
-                        width: 200,
-                        padding: const EdgeInsets.all(20),
-                        decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 105, 173, 173),
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.only(top: 60),
-                                  child: Text(
-                                    'Report',
-                                    style: GoogleFonts.poppins(
-                                        fontSize: 18,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold),
-                                  ),
+                    Flexible(
+                      flex: 1,
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(context, '/report');
+                        },
+                        child: Container(
+                          height: 150,
+                          padding: const EdgeInsets.all(20),
+                          decoration: BoxDecoration(
+                            color: const Color.fromARGB(255, 105, 173, 173),
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Report',
+                                style: GoogleFonts.poppins(
+                                  fontSize: 18,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
                                 ),
-                                Text('Report a problem')
-                              ],
-                            ),
-                            Container(
-                                padding: EdgeInsets.only(bottom: 70),
-                                child: Image.asset('pic/status.png',
-                                    width: 40, height: 40)),
-                          ],
+                              ),
+                              Text(
+                                'Report a problem',
+                                style: GoogleFonts.poppins(
+                                  fontSize: 14,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
                     const SizedBox(width: 10),
 
-                    // MFU News and History buttons
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        GestureDetector(
-                          onTap: () async {
-                            final Uri url =
-                                Uri.parse('https://en.mfu.ac.th/en-news.html');
-                            if (await canLaunchUrl(url)) {
-                              await launchUrl(url);
-                            } else {
-                              throw 'Could not launch $url';
-                            }
-                          },
-                          child: Container(
-                            width: 150,
-                            height: 70,
-                            padding: const EdgeInsets.all(20),
-                            decoration: BoxDecoration(
-                              color: const Color.fromARGB(255, 224, 88, 88),
-                              borderRadius: BorderRadius.circular(25),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'MFU NEWS',
-                                  style: GoogleFonts.poppins(
+                    // MFU NEWS and History buttons
+                    Flexible(
+                      flex: 1,
+                      child: Column(
+                        children: [
+                          // MFU NEWS Button
+                          GestureDetector(
+                            onTap: () async {
+                              final Uri url =
+                                  Uri.parse('https://en.mfu.ac.th/en-news.html');
+                              if (await canLaunchUrl(url)) {
+                                await launchUrl(
+                                  url,
+                                  mode: LaunchMode.externalApplication,
+                                );
+                              } else {
+                                throw 'Could not launch $url';
+                              }
+                            },
+                            child: Container(
+                              height: 70,
+                              padding: const EdgeInsets.all(20),
+                              decoration: BoxDecoration(
+                                color: const Color.fromARGB(255, 224, 88, 88),
+                                borderRadius: BorderRadius.circular(25),
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'MFU NEWS',
+                                    style: GoogleFonts.poppins(
                                       fontSize: 14,
                                       color: Colors.white,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                                const Icon(Icons.newspaper,
-                                    color: Colors.white),
-                              ],
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  const Icon(Icons.newspaper,
+                                      color: Colors.white),
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                        const SizedBox(height: 10),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.pushNamed(context, '/history');
-                          },
-                          child: Container(
-                            height: 70,
-                            width: 150,
-                            padding: const EdgeInsets.all(20),
-                            decoration: BoxDecoration(
-                              color: const Color.fromARGB(255, 238, 161, 74),
-                              borderRadius: BorderRadius.circular(25),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'History',
-                                  style: GoogleFonts.poppins(
-                                      fontSize: 18,
+                          const SizedBox(height: 10),
+
+                          // History Button
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(context, '/history');
+                            },
+                            child: Container(
+                              height: 70,
+                              padding: const EdgeInsets.all(20),
+                              decoration: BoxDecoration(
+                                color: const Color.fromARGB(255, 238, 161, 74),
+                                borderRadius: BorderRadius.circular(25),
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'History',
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 14,
                                       color: Colors.white,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                                const Icon(Icons.history, color: Colors.white),
-                              ],
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  const Icon(Icons.history,
+                                      color: Colors.white),
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ],
                 ),
