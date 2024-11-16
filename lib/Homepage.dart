@@ -173,49 +173,48 @@ class HomePage extends StatelessWidget {
                       child: Column(
                         children: [
                           // MFU NEWS Button
-                          GestureDetector(
-                            onTap: () async {
-                              final Uri url =
-                                  Uri.parse('https://en.mfu.ac.th/en-news.html');
-                              if (await canLaunchUrl(url)) {
-                                await launchUrl(
-                                  url,
-                                  mode: LaunchMode.externalApplication,
-                                );
-                              } else {
-                                // Show a snack bar if the URL could not be launched
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text('Could not launch the URL.'),
-                                  ),
-                                );
-                              }
-                            },
-                            child: Container(
-                              height: 70,
-                              padding: const EdgeInsets.all(20),
-                              decoration: BoxDecoration(
-                                color: const Color.fromARGB(255, 224, 88, 88),
-                                borderRadius: BorderRadius.circular(25),
-                              ),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'MFU NEWS',
-                                    style: GoogleFonts.poppins(
-                                      fontSize: 14,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                  const Icon(Icons.newspaper,
-                                      color: Colors.white),
-                                ],
-                              ),
-                            ),
-                          ),
+                         // MFU NEWS Button
+// MFU NEWS Button
+GestureDetector(
+  onTap: () async {
+    final Uri url = Uri.parse('https://google.com'); // เปลี่ยน URL ตามที่ต้องการ
+    if (await canLaunchUrl(url)) {
+      await launchUrl(
+        url,
+        mode: LaunchMode.externalApplication, // เปิดด้วยเบราว์เซอร์ภายนอก
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Could not launch the URL.'),
+        ),
+      );
+    }
+  },
+  child: Container(
+    height: 70,
+    padding: const EdgeInsets.all(20),
+    decoration: BoxDecoration(
+      color: const Color.fromARGB(255, 224, 88, 88),
+      borderRadius: BorderRadius.circular(25),
+    ),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          'MFU NEWS',
+          style: GoogleFonts.poppins(
+            fontSize: 14,
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        const Icon(Icons.newspaper, color: Colors.white),
+      ],
+    ),
+  ),
+),
+
                           const SizedBox(height: 10),
 
                           // History Button
