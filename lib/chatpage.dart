@@ -15,30 +15,65 @@ class _ChatScreenState extends State<ChatPage> {
   bool isLoading = false;
 
   void _sendMessage() async {
-    final userMessage = _controller.text;
-    if (userMessage.isEmpty) return;
+  final userMessage = _controller.text;
+  if (userMessage.isEmpty) return;
 
-    setState(() {
-      messages.add({"sender": "user", "message": userMessage});
-      isLoading = true;
-    });
+  setState(() {
+    messages.add({"sender": "user", "message": userMessage});
+    isLoading = true;
+  });
 
-    final response = await getChatbotResponse(userMessage);
+  // Check for specific keywords in the user's message
+  if (userMessage.toLowerCase().contains("report") || userMessage.toLowerCase().contains("problem")) {
+    // Show a dialog asking for confirmation
+    bool? shouldNavigate = await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text("Navigate to Report Page?"),
+        content: Text("It looks like you want to report a problem. Do you want to navigate to the report page?"),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: Text("Cancel"),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: Text("Yes"),
+          ),
+        ],
+      ),
+    );
 
-    if (response['action'] == 'navigate' && response['target'] == 'ProblemsPage') {
+    // Navigate to ProblemsReport page if user confirms
+    if (shouldNavigate == true) {
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => ProblemsReport()),
       );
-    } else {
-      setState(() {
-        messages.add({"sender": "bot", "message": response['response'] ?? 'No response from chatbot'});
-        isLoading = false;
-      });
     }
 
+    // Reset the input field and loading state
+    setState(() {
+      isLoading = false;
+    });
     _controller.clear();
+    return;
   }
+
+  // Otherwise, send the message to the chatbot API
+  final response = await getChatbotResponse(userMessage);
+
+  setState(() {
+    messages.add({
+      "sender": "bot",
+      "message": response['response'] ?? 'No response from chatbot',
+    });
+    isLoading = false;
+  });
+
+  _controller.clear();
+}
+
 
   @override
   Widget build(BuildContext context) {
