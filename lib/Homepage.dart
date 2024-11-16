@@ -177,7 +177,7 @@ class HomePage extends StatelessWidget {
 // MFU NEWS Button
 GestureDetector(
   onTap: () async {
-    final Uri url = Uri.parse('https://google.com'); // เปลี่ยน URL ตามที่ต้องการ
+    final Uri url = Uri.parse('https://en.mfu.ac.th/en-news.html'); // เปลี่ยน URL ตามที่ต้องการ
     if (await canLaunchUrl(url)) {
       await launchUrl(
         url,
