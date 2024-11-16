@@ -183,7 +183,12 @@ class HomePage extends StatelessWidget {
                                   mode: LaunchMode.externalApplication,
                                 );
                               } else {
-                                throw 'Could not launch $url';
+                                // Show a snack bar if the URL could not be launched
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text('Could not launch the URL.'),
+                                  ),
+                                );
                               }
                             },
                             child: Container(
