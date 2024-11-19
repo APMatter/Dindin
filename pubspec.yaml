@@ -46,6 +46,7 @@ dependencies:
   firebase_storage: ^11.6.9
   google_fonts: ^6.2.1
   url_launcher: ^6.1.5
+  firebase_messaging: ^14.7.19
 
 
 

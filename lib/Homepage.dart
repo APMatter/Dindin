@@ -1,10 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart'; // Import Firebase Messaging
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   final String username;
   final String profileImagePath;
 
@@ -13,6 +14,38 @@ class HomePage extends StatelessWidget {
     required this.username,
     required this.profileImagePath,
   }) : super(key: key);
+
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+
+    // ดึง FCM Token
+    FirebaseMessaging.instance.getToken().then((token) {
+      print("FCM Token: $token");
+      // คุณสามารถเพิ่มโค้ดเพื่อจัดเก็บ Token ในฐานข้อมูลได้
+    });
+
+    // จัดการข้อความที่มาถึงขณะเปิดแอป (Foreground Notification)
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      print('Message received in foreground: ${message.notification?.title}');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('${message.notification?.body}'),
+        ),
+      );
+    });
+
+    // จัดการเมื่อคลิกแจ้งเตือน (เปิดจาก Background/Notification Tray)
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      print('Message clicked!');
+      // คุณสามารถเพิ่มการนำทางไปยังหน้าเฉพาะได้
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +86,7 @@ class HomePage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Hello $username',
+                            'Hello ${widget.username}',
                             style: GoogleFonts.poppins(
                               fontSize: 18,
                               color: Colors.black,
@@ -173,48 +206,42 @@ class HomePage extends StatelessWidget {
                       child: Column(
                         children: [
                           // MFU NEWS Button
-                         // MFU NEWS Button
-// MFU NEWS Button
-GestureDetector(
-  onTap: () async {
-    final Uri url = Uri.parse('https://en.mfu.ac.th/en-news.html'); // เปลี่ยน URL ตามที่ต้องการ
-    if (await canLaunchUrl(url)) {
-      await launchUrl(
-        url,
-        mode: LaunchMode.externalApplication, // เปิดด้วยเบราว์เซอร์ภายนอก
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Could not launch the URL.'),
-        ),
-      );
-    }
-  },
-  child: Container(
-    height: 70,
-    padding: const EdgeInsets.all(20),
-    decoration: BoxDecoration(
-      color: const Color.fromARGB(255, 224, 88, 88),
-      borderRadius: BorderRadius.circular(25),
-    ),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          'MFU NEWS',
-          style: GoogleFonts.poppins(
-            fontSize: 14,
-            color: Colors.white,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        const Icon(Icons.newspaper, color: Colors.white),
-      ],
-    ),
-  ),
-),
-
+                          GestureDetector(
+                            onTap: () async {
+                              final Uri url = Uri.parse('https://en.mfu.ac.th/en-news.html');
+                              if (await canLaunchUrl(url)) {
+                                await launchUrl(url, mode: LaunchMode.externalApplication);
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text('Could not launch the URL.'),
+                                  ),
+                                );
+                              }
+                            },
+                            child: Container(
+                              height: 70,
+                              padding: const EdgeInsets.all(20),
+                              decoration: BoxDecoration(
+                                color: const Color.fromARGB(255, 224, 88, 88),
+                                borderRadius: BorderRadius.circular(25),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'MFU NEWS',
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 14,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  const Icon(Icons.newspaper, color: Colors.white),
+                                ],
+                              ),
+                            ),
+                          ),
                           const SizedBox(height: 10),
 
                           // History Button
@@ -230,8 +257,7 @@ GestureDetector(
                                 borderRadius: BorderRadius.circular(25),
                               ),
                               child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     'History',
@@ -241,8 +267,7 @@ GestureDetector(
                                       fontWeight: FontWeight.w600,
                                     ),
                                   ),
-                                  const Icon(Icons.history,
-                                      color: Colors.white),
+                                  const Icon(Icons.history, color: Colors.white),
                                 ],
                               ),
                             ),
